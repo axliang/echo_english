@@ -47,7 +47,7 @@ Page({
 
   goToLyricsPreview() {
     wx.navigateTo({
-      url: '/pages/lyrics-preview/lyrics-preview'
+      url: `/pages/lyrics-preview/lyrics-preview?bookId=${this.data.movie.id}`
     });
   },
 
@@ -72,7 +72,10 @@ Page({
       success: (res) => {
         wx.hideLoading();
         if (res.data.status === 'success' && res.data.data) {
-          const courses = res.data.data.map(item => ({
+          // 按名称从小到大排序
+          const sortedCourses = res.data.data.sort((a, b) => a.title.localeCompare(b.title));
+          
+          const courses = sortedCourses.map(item => ({
             id: item.id,
             title: item.title,
             duration: '未知', // API没有返回时长信息
@@ -83,9 +86,9 @@ Page({
           
           this.setData({
             'movie.id': parseInt(bookId),
-            'movie.title': res.data.data[0]?.title || '高考听力',
+            'movie.title': sortedCourses[0]?.title || '高考听力',
             'movie.tracks': courses,
-            'movie.description': res.data.data[0]?.description || '高考英语听力练习材料'
+            'movie.description': sortedCourses[0]?.description || '高考英语听力练习材料'
           });
         } else {
           wx.showToast({

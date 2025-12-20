@@ -14,11 +14,11 @@
   </view>
 
   <scroll-view class="lyrics-list" scroll-y="true">
-    <block wx:for="{{lyrics}}" wx:key="index">
-      <view class="lyric-item">
+    <block wx:for="{{displayedLyrics}}" wx:key="index">
+      <view class="lyric-item {{item.isTitle ? 'title-item' : ''}}">
         <view class="lyric-body">
-          <text class="lyric-meta">{{item.index}} - {{item.time}}</text>
-          <view class="en-line" wx:if="{{item.words && item.words.length}}">
+          <text class="lyric-meta" wx:if="{{!item.isTitle}}">{{item.index}} - {{item.time}}</text>
+          <view class="en-line" wx:if="{{item.words && item.words.length && !item.isTitle}}">
             <block wx:for="{{item.words}}" wx:key="wordIndex" wx:for-index="wordIndex" wx:for-item="word">
               <text
                 id="word-{{index}}-{{wordIndex}}"
@@ -30,11 +30,23 @@
               >{{word}}</text>
             </block>
           </view>
-          <text class="en-line en-line-text" wx:else>{{item.en}}</text>
-          <text class="zh-line">{{item.zh}}</text>
+          <text class="en-line en-line-text {{item.isTitle ? 'title-text' : ''}}" wx:if="{{!item.words || !item.words.length || item.isTitle}}">{{item.en}}</text>
+          <text class="zh-line" wx:if="{{item.zh && !item.isTitle}}">{{item.zh}}</text>
         </view>
       </view>
     </block>
+    
+    <!-- 加载更多按钮 -->
+    <view class="load-more" wx:if="{{!isLoading && currentPage < totalPages - 1}}">
+      <button class="load-more-btn" bindtap="loadMoreLyrics">
+        <text>加载更多 ({{currentPage + 1}}/{{totalPages}})</text>
+      </button>
+    </view>
+    
+    <!-- 已加载全部 -->
+    <view class="load-complete" wx:if="{{!isLoading && currentPage >= totalPages - 1}}">
+      <text class="complete-text">已加载全部 {{lyrics.length}} 行字幕</text>
+    </view>
   </scroll-view>
 
   <view class="vocabulary-entry" bindtap="goToVocabulary">

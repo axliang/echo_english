@@ -34,9 +34,12 @@ Page({
     this.lyrics = [];
     this.scrollIntoView = '';
     
-    // 保存传递的参数
-    this.audioUrl = options.audioUrl || 'https://danci.hub123.cn/uploads/echoenglish/elephant.mp4';
-    this.srtUrl = options.srtUrl || 'https://danci.hub123.cn/uploads/echoenglish/elephant_en.srt';
+    // 保存传递的参数，并进行URL解码
+    this.audioUrl = options.audioUrl ? decodeURIComponent(options.audioUrl) : null;
+    this.srtUrl = options.srtUrl ? decodeURIComponent(options.srtUrl) : null;
+    
+    console.log('[Player] 解码后的音频URL:', this.audioUrl);
+    console.log('[Player] 解码后的字幕URL:', this.srtUrl);
     
     // 延迟加载字幕确保界面初始化完成
     setTimeout(() => {

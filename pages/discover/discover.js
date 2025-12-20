@@ -95,6 +95,8 @@ Page({
     
     // 获取高考数据
     this.fetchExamData();
+    // 获取电影数据
+    this.fetchMovieData();
   },
 
   fetchExamData() {
@@ -116,6 +118,34 @@ Page({
       },
       fail: (err) => {
         console.error('请求高考数据失败:', err);
+      }
+    });
+  },
+
+  fetchMovieData() {
+    wx.request({
+      url: 'https://danci.hub123.cn/admin/openApi/get_books_by_type.php?book_type=英语-电影',
+      method: 'GET',
+      success: (res) => {
+        if (res.data.status === 'success' && res.data.data) {
+          const movieList = res.data.data.map(item => ({
+            id: item.id,
+            poster: item.image,
+            title: item.name,
+            tags: ['英语', '电影'],
+            year: '2023', // 默认年份
+            country: '美国', // 默认国家
+            genre: '电影',
+            duration: '2h', // 默认时长
+            segments: 10 // 默认分段数
+          }));
+          this.setData({ movieList });
+        } else {
+          console.error('获取电影数据失败:', res.data.message);
+        }
+      },
+      fail: (err) => {
+        console.error('请求电影数据失败:', err);
       }
     });
   }

@@ -23,7 +23,7 @@
   <!-- 音频播放器 -->
   <video 
     id="audioPlayer"
-    src="{{audioUrl || 'https://danci.hub123.cn/uploads/echoenglish/elephant.mp4'}}"
+    src="{{audioUrl}}"
     autoplay="{{isPlaying}}"
     controls="{{false}}"
     loop="{{isLoop}}"
