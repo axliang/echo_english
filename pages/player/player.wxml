@@ -1,0 +1,230 @@
+<view class="player-page">
+  <!-- 错误提示 -->
+  <view class="error-message" wx:if="{{errorMessage}}">
+    <text>{{errorMessage}}</text>
+  </view>
+  
+  <!-- 调试信息 -->
+  <view class="debug-info" wx:if="{{showDebug}}">
+    <text>播放状态: {{isPlaying ? '播放中' : '已暂停'}}</text>
+    <text>当前位置: {{currentPosition}}</text>
+    <text>总时长: {{duration}}</text>
+    <text>播放速度: {{playSpeed}}x</text>
+    <text>字幕数量: {{lyrics.length}}</text>
+    <text>当前歌词索引: {{currentIndex}}</text>
+    <text wx:if="{{lyrics.length > 0}}">当前歌词内容: {{lyrics[currentIndex].en}}</text>
+    <text wx:if="{{audioError}}">音频错误: {{audioError}}</text>
+    <!-- 添加测试按钮 -->
+    <button bindtap="nextLyric">下一歌词</button>
+    <button bindtap="toggleSubtitleVisibility">切换字幕显示</button>
+    <button bindtap="loadTestLyrics">加载测试歌词</button>
+  </view>
+
+  <!-- 音频播放器 -->
+  <video 
+    id="audioPlayer"
+    src="{{audioUrl || 'https://danci.hub123.cn/uploads/echoenglish/elephant.mp4'}}"
+    autoplay="{{isPlaying}}"
+    controls="{{false}}"
+    loop="{{isLoop}}"
+    muted="{{isMuted}}"
+    initial-time="{{initialTime}}"
+    bindplay="onPlay"
+    bindpause="onPause"
+    bindended="onEnded"
+    bindtimeupdate="onTimeUpdate"
+    binderror="onError"
+    show-fullscreen-btn="{{false}}"
+    show-center-play-btn="{{false}}"
+    show-play-btn="{{false}}"
+    style="display: none;"
+  ></video>
+
+  <!-- 顶部活动横幅 -->
+  <view class="banner" wx:if="{{showBanner}}">
+    <text class="banner-text">发小红书领会员</text>
+    <button class="close-banner" bindtap="closeBanner">
+      <image class="close-icon" src="/images/close.png"></image>
+    </button>
+  </view>
+
+  <!-- 调试开关按钮 -->
+  <view style="position: absolute; top: 20rpx; right: 20rpx; z-index: 1200;">
+    <button bindtap="toggleDebug" size="mini">调试</button>
+  </view>
+
+  <!-- 自定义导航栏 -->
+  <view class="custom-navbar">
+    <button class="nav-button" bindtap="goBack">
+      <image class="nav-icon" src="/images/back.png"></image>
+    </button>
+    <text class="nav-title">歌词播放器</text>
+    <button class="nav-button">
+      <image class="nav-icon" src="/images/menu.png"></image>
+    </button>
+  </view>
+
+  <!-- 歌词和进度条容器 -->
+  <view class="lyrics-with-progress">
+    <!-- 调试：直接显示当前歌词 -->
+    <view wx:if="{{showDebug}}" style="background-color: red; color: white; padding: 20rpx; margin: 20rpx; border-radius: 10rpx;">
+      <text>调试歌词显示:</text>
+      <text wx:if="{{lyrics.length > 0}}">{{lyrics[currentIndex].en}}</text>
+    </view>
+    
+    <!-- 滚动歌词区 -->
+    <scroll-view class="lyrics-container" scroll-y="true" scroll-top="{{scrollTop}}" scroll-with-animation="true" wx:if="{{showSubtitle}}" enable-back-to-top="true" enable-flex="true">
+      <block wx:for="{{lyrics}}" wx:key="index">
+        <view 
+          id="lyric-{{index}}"
+          class="lyric-line {{currentIndex === index ? 'active' : ''}}"
+        >
+          <view class="en-line" wx:if="{{subtitleMode !== 'zh'}}">
+            <block wx:if="{{item.words && item.words.length}}">
+              <text 
+                wx:for="{{item.words}}"
+                wx:key="wordIndex"
+                wx:for-index="wordIndex"
+                wx:for-item="word"
+                class="word {{currentIndex === index ? 'active' : ''}}"
+                data-word="{{word}}"
+                bindtap="onWordTap"
+              >
+                {{word}}
+              </text>
+            </block>
+            <text 
+              wx:else
+              class="word {{currentIndex === index ? 'active' : ''}}"
+              data-word="{{item.en}}"
+              bindtap="onWordTap"
+            >
+              {{item.en}}
+            </text>
+          </view>
+          <text class="zh-line {{currentIndex === index ? 'active' : ''}}" wx:if="{{subtitleMode !== 'en' && item.zh}}">{{item.zh}}</text>
+        </view>
+      </block>
+      
+      <!-- 无字幕提示 -->
+      <view class="no-lyrics" wx:if="{{lyrics.length === 0}}">
+        <text>正在加载字幕...</text>
+      </view>
+    </scroll-view>
+    
+    <!-- 当不显示字幕时显示提示 -->
+    <view class="no-lyrics" wx:elif="{{!showSubtitle}}">
+      <text>字幕已关闭</text>
+    </view>
+    
+    <!-- 右侧垂直进度条 -->
+    <view class="vertical-progress">
+      <view class="progress-bar" style="height: {{(currentPosition / duration) * 100}}%;"></view>
+    </view>
+  </view>
+
+  <!-- 播放控制栏 -->
+  <view class="player-controls">
+    <!-- 进度条 -->
+    <view class="progress-container">
+      <text class="time-text">{{currentTime}}</text>
+      <slider 
+        class="progress-slider" 
+        min="0" 
+        max="{{duration}}" 
+        value="{{currentPosition}}" 
+        bindchanging="onSliderChanging"
+        bindchange="onSliderChange"
+      />
+      <text class="time-text">{{totalTime}}</text>
+    </view>
+
+    <!-- 控制按钮 -->
+    <view class="control-buttons">
+      <button class="control-button" bindtap="seekBackward">
+        <image class="control-icon" src="/images/backward-15.png"></image>
+        <text class="control-text">快退</text>
+      </button>
+      <button class="control-button play-button" bindtap="togglePlay">
+        <!-- 添加文本提示，确保按钮可见 -->
+        <image class="control-icon" src="{{isPlaying ? '/images/pause.png' : '/images/play.png'}}"></image>
+        <text class="play-text">{{isPlaying ? '暂停' : '播放'}}</text>
+      </button>
+      <button class="control-button" bindtap="seekForward">
+        <image class="control-icon" src="/images/forward-15.png"></image>
+        <text class="control-text">快进</text>
+      </button>
+    </view>
+
+    <!-- 底部工具栏 -->
+    <view class="bottom-toolbar">
+      <button class="toolbar-button">
+        <image class="toolbar-icon" src="/images/favorite.png"></image>
+        <text class="toolbar-text">收藏</text>
+      </button>
+      <button class="toolbar-button" bindtap="changeSpeed">
+        <image class="toolbar-icon" src="/images/speed.png"></image>
+        <text class="toolbar-text">{{playSpeed}}x</text>
+      </button>
+      <button class="toolbar-button">
+        <image class="toolbar-icon" src="/images/repeat.png"></image>
+        <text class="toolbar-text">循环</text>
+      </button>
+      <button class="toolbar-button" bindtap="toggleSubtitle">
+        <image class="toolbar-icon" src="{{showSubtitle ? '/images/subtitle-on.png' : '/images/subtitle-off.png'}}"></image>
+        <text class="toolbar-text">字幕</text>
+      </button>
+      <button class="toolbar-button" bindtap="cycleSubtitleMode">
+        <image class="toolbar-icon" src="/images/menu.png"></image>
+        <text class="toolbar-text">{{subtitleModeLabel}}</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 简明词典卡片 -->
+  <view class="dictionary-modal" wx:if="{{showDictionary}}" style="top: {{modalTop}}px; left: {{modalLeft}}px;">
+    <!-- 顶部标签栏 -->
+    <view class="dict-tag-bar">
+      <text class="dict-tag">初</text>
+      <text class="dict-tag">高中</text>
+      <text class="dict-tag">CET4</text>
+      <text class="dict-tag">CET6</text>
+      <text class="dict-tag">考研</text>
+      <text class="dict-tag">PET</text>
+      <button class="close-tag-bar" bindtap="closeDictionary">
+        <image class="close-icon" src="/images/close.png"></image>
+      </button>
+    </view>
+    
+    <!-- 1000FQ 标记 -->
+    <view class="dict-fq">1000FQ</view>
+    
+    <!-- 单词和操作 -->
+    <view class="dict-word-row">
+      <text class="dict-word">{{selectedWord}}</text>
+      <button class="favorite-button">
+        <image class="heart-icon" src="/images/heart.png"></image>
+      </button>
+      <text class="more-text">更多</text>
+    </view>
+    
+    <!-- 发音 -->
+    <view class="dict-pronunciation">
+      <button class="sound-button">
+        <image class="sound-icon" src="/images/sound.png"></image>
+      </button>
+      <text class="pronunciation">美 {{dictionaryPhonetics.us}}</text>
+      <text class="pronunciation">英 {{dictionaryPhonetics.uk}}</text>
+    </view>
+    
+    <!-- 词义 -->
+    <view class="dict-meanings">
+      <block wx:for="{{dictionaryDefinitions}}" wx:key="index">
+        <view class="meaning-item">
+          <text class="pos">{{item.pos}}</text>
+          <text class="meaning">{{item.meaning}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

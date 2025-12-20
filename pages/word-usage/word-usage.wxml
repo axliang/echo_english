@@ -1,0 +1,68 @@
+<view class="word-usage-page">
+  <!-- 单词卡片 -->
+  <view class="word-card">
+    <view class="word-header">
+      <text class="word-spelling">{{currentWord}}</text>
+      <button class="sound-button">
+        <image class="sound-icon" src="/images/sound.png"></image>
+      </button>
+    </view>
+    <view class="word-pronunciation">
+      <text class="phonetic">/ˈfɒrɪst/</text>
+    </view>
+    <view class="word-translations">
+      <block wx:for="{{translations}}" wx:key="index">
+        <view class="translation-item">
+          <text class="pos">{{item.pos}}</text>
+          <text class="meaning">{{item.meaning}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 语境例句列表 -->
+  <view class="sentences-section">
+    <view class="section-title">语境例句</view>
+    <block wx:for="{{sentences}}" wx:key="index">
+      <view class="sentence-item" data-index="{{index}}" bindtap="onSentenceTap">
+        <text class="time-code">{{item.time}}</text>
+        <text class="sentence-text">{{item.text}}</text>
+        <text class="sentence-translation">{{item.translation}}</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 简明词典卡片 -->
+  <view class="dictionary-modal" wx:if="{{showDictionary}}" style="top: {{modalTop}}px; left: {{modalLeft}}px;">
+    <view class="dict-header">
+      <text class="dict-word">{{selectedWord}}</text>
+      <view class="dict-actions">
+        <button class="favorite-button">
+          <image class="heart-icon" src="/images/heart.png"></image>
+        </button>
+        <button class="close-button" bindtap="closeDictionary">
+          <image class="close-icon" src="/images/close.png"></image>
+        </button>
+      </view>
+    </view>
+    <view class="dict-tags">
+      <text class="dict-tag">CET4</text>
+      <text class="dict-tag">高中</text>
+    </view>
+    <view class="dict-pronunciation">
+      <text class="pronunciation">/ˈfɒrɪst/</text>
+      <button class="sound-button">
+        <image class="sound-icon" src="/images/sound.png"></image>
+      </button>
+    </view>
+    <view class="dict-meanings">
+      <block wx:for="{{wordMeanings}}" wx:key="index">
+        <view class="meaning-item">
+          <text class="pos">{{item.pos}}</text>
+          <text class="meaning">{{item.meaning}}</text>
+        </view>
+      </block>
+    </view>
+    <button class="more-button" bindtap="goToYoudao">更多</button>
+  </view>
+</view>

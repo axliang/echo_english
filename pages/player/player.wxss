@@ -1,0 +1,417 @@
+.player-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #000;
+  color: #fff;
+  position: relative;
+  overflow: hidden; /* 防止内容溢出 */
+}
+
+audio {
+  display: none;
+}
+
+.error-message {
+  background-color: #ff4d4f;
+  color: white;
+  padding: 20rpx;
+  text-align: center;
+  font-size: 24rpx;
+}
+
+.debug-info {
+  background-color: #ffeb3b;
+  color: #000;
+  padding: 10rpx;
+  font-size: 20rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.debug-info button {
+  margin: 10rpx 0;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  padding: 10rpx;
+  border-radius: 4rpx;
+}
+
+.debug-info text {
+  margin: 5rpx 0;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ff6b00;
+  padding: 10rpx 20rpx;
+}
+
+.banner-text {
+  font-size: 28rpx;
+  color: white;
+  font-weight: bold;
+}
+
+.close-banner {
+  background: none;
+  border: none;
+  padding: 10rpx;
+}
+
+.close-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.custom-navbar {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  padding: 10rpx;
+}
+
+.nav-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.lyrics-with-progress {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  min-height: 300rpx;
+  position: relative;
+  background-color: #000;
+}
+
+.lyrics-container {
+  flex: 1;
+  padding: 120rpx 20rpx 320rpx;
+  min-height: 300rpx; /* 显式设置最小高度 */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: relative;
+  overflow: auto; /* 确保内容可滚动 */
+  box-sizing: border-box;
+  background-color: #111; /* 临时调试用，可后续移除 */
+}
+
+.lyric-line {
+  margin-bottom: 40rpx;
+  opacity: 0.8;
+  filter: blur(0);
+  transition: all 0.3s;
+  text-align: center;
+  padding: 20rpx 0;
+  background-color: transparent;
+  border-radius: 10rpx;
+  /* 确保不会被隐藏 */
+  display: block;
+  visibility: visible;
+}
+
+.lyric-line.active {
+  opacity: 1;
+  filter: none;
+  transform: scale(1.05);
+  background-color: rgba(30, 30, 30, 0.7);
+}
+
+.en-line {
+  display: block;
+  font-size: 36rpx;
+  text-align: center;
+  margin-bottom: 10rpx;
+  color: #fff;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.zh-line {
+  display: block;
+  font-size: 28rpx;
+  text-align: center;
+  color: #aaa;
+  line-height: 1.4;
+  transition: color 0.3s;
+}
+
+.lyric-line.active .en-line {
+  color: #00ff00;
+}
+
+.lyric-line.active .zh-line,
+.zh-line.active {
+  color: #80ff80;
+}
+
+.word {
+  color: inherit;
+  transition: color 0.3s, background-color 0.3s;
+  padding: 4rpx 8rpx;
+  border-radius: 8rpx;
+  display: inline-block;
+  font-size: 36rpx;
+  line-height: 1.4;
+  margin-right: 12rpx;
+}
+
+.word.active {
+  color: #00ff00 !important;
+  background-color: rgba(0, 255, 0, 0.1);
+  font-weight: 500;
+}
+
+.no-lyrics {
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+  padding: 40rpx;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+}
+
+.player-controls {
+  background-color: transparent;
+  padding: 4rpx 8rpx;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  border-top: none;
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rpx;
+}
+
+.time-text {
+  font-size: 24rpx;
+  color: #999;
+  width: 80rpx;
+}
+
+.progress-slider {
+  flex: 1;
+  margin: 0 20rpx;
+}
+
+.control-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8rpx 0;
+}
+
+.control-button {
+  background: none;
+  border: none;
+  padding: 10rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.play-button {
+  margin: 0 30rpx;
+  background-color: rgba(24, 144, 255, 0.5);
+  border-radius: 50%;
+  width: 60rpx;
+  height: 60rpx;
+  justify-content: center;
+}
+
+.control-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.play-text, .control-text {
+  font-size: 20rpx;
+  color: white;
+  margin-top: 5rpx;
+}
+
+.bottom-toolbar {
+  display: flex;
+  justify-content: space-around;
+  padding: 10rpx 0;
+}
+
+.toolbar-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+}
+
+.toolbar-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-bottom: 10rpx;
+}
+
+.toolbar-text {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.dictionary-modal {
+  position: absolute;
+  width: 75%;
+  background-color: #444;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  box-shadow: 0 10rpx 40rpx rgba(0, 0, 0, 0.9);
+  color: #fff;
+  z-index: 1000;
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
+}
+
+/* 顶部标签栏 */
+.dict-tag-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.dict-tag {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  margin-right: 10rpx;
+  margin-bottom: 8rpx;
+}
+
+.close-tag-bar {
+  background: none;
+  border: none;
+  padding: 10rpx;
+  margin-left: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 60rpx;
+  height: 60rpx;
+}
+
+/* 1000FQ 标记 */
+.dict-fq {
+  font-size: 22rpx;
+  color: #ccc;
+  margin-bottom: 15rpx;
+}
+
+/* 单词行 */
+.dict-word-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.dict-word {
+  font-size: 42rpx;
+  font-weight: bold;
+  margin-right: 20rpx;
+}
+
+.favorite-button {
+  background: none;
+  border: none;
+  padding: 10rpx;
+  margin-right: 20rpx;
+}
+
+.heart-icon, .close-icon {
+  width: 32rpx;
+  height: 32rpx;
+  filter: brightness(0) invert(1);
+}
+
+.more-text {
+  font-size: 24rpx;
+  color: #1890ff;
+  margin-left: auto;
+}
+
+.dict-pronunciation {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.sound-button {
+  background: none;
+  border: none;
+  padding: 10rpx;
+  margin-right: 15rpx;
+}
+
+.sound-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.pronunciation {
+  font-size: 28rpx;
+  color: #ccc;
+  margin-right: 25rpx;
+}
+
+.dict-meanings {
+  margin-bottom: 20rpx;
+}
+
+.meaning-item {
+  display: flex;
+  margin-bottom: 10rpx;
+}
+
+.pos {
+  font-weight: bold;
+  color: #1890ff;
+  width: 80rpx;
+  font-size: 26rpx;
+}
+
+.meaning {
+  flex: 1;
+  font-size: 26rpx;
+  line-height: 1.5;
+}
+
+/* 移除旧的样式 */
+.dict-header, .dict-actions, .dict-tags, .more-button {
+  display: none;
+}

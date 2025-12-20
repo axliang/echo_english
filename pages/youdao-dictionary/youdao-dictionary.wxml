@@ -1,0 +1,92 @@
+<view class="youdao-page">
+  <!-- 仿真浏览器头部 -->
+  <view class="browser-header">
+    <button class="back-button" bindtap="goBack">
+      <image class="back-icon" src="/images/back.png"></image>
+    </button>
+    <text class="page-title">有道词典 - forest</text>
+  </view>
+
+  <!-- 词典内容 -->
+  <scroll-view class="dictionary-content" scroll-y="true">
+    <!-- 基本释义 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">基本释义</text>
+      </view>
+      <view class="basic-explanation">
+        <view class="word-main">
+          <text class="word-spelling">forest</text>
+          <button class="sound-button">
+            <image class="sound-icon" src="/images/sound.png"></image>
+          </button>
+          <button class="sound-button">
+            <image class="sound-icon" src="/images/sound.png"></image>
+          </button>
+        </view>
+        <view class="phonetic">英 [ˈfɒrɪst] 美 [ˈfɔːrɪst]</view>
+        <view class="translations">
+          <block wx:for="{{basicTranslations}}" wx:key="index">
+            <view class="translation-item">
+              <text class="pos">{{item.pos}}</text>
+              <text class="meaning">{{item.meaning}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+
+    <!-- 柯林斯词典 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">柯林斯词典</text>
+      </view>
+      <view class="collins-definition">
+        <block wx:for="{{collinsEntries}}" wx:key="index">
+          <view class="collins-entry">
+            <view class="collins-header">
+              <text class="word-spelling">{{item.word}}</text>
+              <view class="star-rating">
+                <block wx:for="{{item.stars}}" wx:key="starIndex">
+                  <image class="star-icon {{item.starFilled ? 'filled' : ''}}" src="{{item.starFilled ? '/images/star-filled.png' : '/images/star-empty.png'}}"></image>
+                </block>
+              </view>
+            </view>
+            <view class="definition-list">
+              <block wx:for="{{item.definitions}}" wx:key="defIndex">
+                <view class="definition-item">
+                  <text class="def-number">{{item.number}}.</text>
+                  <view class="def-content">
+                    <text class="pos">{{item.pos}}</text>
+                    <text class="def-text">{{item.definition}}</text>
+                    <view class="examples" wx:if="{{item.examples}}">
+                      <block wx:for="{{item.examples}}" wx:key="exIndex">
+                        <text class="example-sentence">{{item.sentence}}</text>
+                        <text class="example-translation">{{item.translation}}</text>
+                      </block>
+                    </view>
+                  </view>
+                </view>
+              </block>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 网络释义 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">网络释义</text>
+      </view>
+      <view class="web-translations">
+        <block wx:for="{{webTranslations}}" wx:key="index">
+          <view class="web-item">
+            <text class="web-key">{{item.key}}</text>
+            <text class="web-value">{{item.value}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+</view>

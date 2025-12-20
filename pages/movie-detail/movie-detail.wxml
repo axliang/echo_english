@@ -1,0 +1,62 @@
+<view class="movie-detail-page">
+  <!-- 顶部视觉区 -->
+  <view class="header-section">
+    <image class="bg-blur" src="{{movie.poster}}" mode="aspectFill"></image>
+    <view class="overlay"></view>
+    <view class="header-content">
+      <button class="back-button" bindtap="goBack">
+        <image src="/images/back.png" class="back-icon"></image>
+      </button>
+      <image class="movie-poster" src="{{movie.poster}}" mode="aspectFill"></image>
+      <text class="movie-title">{{movie.title}}</text>
+    </view>
+  </view>
+
+  <!-- 数据统计栏 -->
+  <view class="stats-bar">
+    <text class="stats-text">累计学习时长: {{studyDuration}}</text>
+  </view>
+
+  <!-- 简介区 -->
+  <view class="intro-section">
+    <view class="section-title">简介</view>
+    <text class="intro-content {{isIntroExpanded ? 'expanded' : 'collapsed'}}">{{movie.description}}</text>
+    <view class="expand-toggle" bindtap="toggleIntro">
+      <text>{{isIntroExpanded ? '收起' : '展开'}}</text>
+      <image class="arrow-icon {{isIntroExpanded ? 'rotated' : ''}}" src="/images/arrow-down.png"></image>
+    </view>
+  </view>
+
+  <!-- 播放列表 -->
+  <view class="playlist-section">
+    <view class="section-title">播放列表</view>
+    <block wx:for="{{movie.tracks}}" wx:key="index">
+      <view class="track-item" bindtap="playTrack" data-index="{{index}}">
+        <view class="track-info">
+          <text class="track-title">{{item.title}}</text>
+          <text class="track-duration">{{item.duration}}</text>
+        </view>
+        <view class="track-actions">
+          <button class="action-btn">
+            <image class="action-icon" src="/images/play-circle.png"></image>
+          </button>
+          <button class="action-btn">
+            <image class="action-icon" src="/images/download.png"></image>
+          </button>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 更多功能入口 -->
+  <view class="more-actions">
+    <button class="action-entry" bindtap="goToLyricsPreview">
+      <image class="entry-icon" src="/images/subtitle.png"></image>
+      <text>完整字幕预览</text>
+    </button>
+    <button class="action-entry">
+      <image class="entry-icon" src="/images/video.png"></image>
+      <text>观看视频</text>
+    </button>
+  </view>
+</view>

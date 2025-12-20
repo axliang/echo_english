@@ -1,0 +1,38 @@
+<view class="more-page">
+  <scroll-view class="more-scroll" scroll-y="true">
+    <view class="hero-card" bindtap="handleCardTap">
+      <text class="hero-title">{{upgradeCard.title}}</text>
+      <text class="hero-desc">{{upgradeCard.desc}}</text>
+      <view class="hero-cta">{{upgradeCard.cta}}</view>
+    </view>
+
+    <view class="menu-card">
+      <block wx:for="{{menuItems}}" wx:key="id">
+        <view class="menu-row" data-id="{{item.id}}" bindtap="handleMenuTap">
+          <view class="menu-left">
+            <view class="menu-icon">
+              <image src="{{item.icon}}"></image>
+            </view>
+            <view class="menu-texts">
+              <text class="menu-title">{{item.title}}</text>
+              <text wx:if="{{item.id === 'account' && accountName}}" class="menu-sub">{{accountName}}</text>
+            </view>
+          </view>
+          <view class="menu-right">
+            <text class="menu-extra">{{item.id === 'account' ? accountStatus : item.extra}}</text>
+            <text class="menu-arrow">›</text>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view class="footer-banner">
+      <view>
+        <text class="banner-title">{{footerBanner.title}}</text>
+        <text class="banner-desc">{{footerBanner.desc}}</text>
+      </view>
+      <text class="banner-arrow">立即参加</text>
+    </view>
+  </scroll-view>
+
+</view>

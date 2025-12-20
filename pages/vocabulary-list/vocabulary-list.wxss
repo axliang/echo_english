@@ -1,0 +1,274 @@
+.downloads-page {
+  height: 100vh;
+  background: #f4f6fb;
+}
+
+.downloads-scroll {
+  height: 100%;
+  padding: 24rpx;
+}
+
+.summary-card {
+  background: linear-gradient(135deg, #2ec7a7 0%, #3a8ef6 100%);
+  border-radius: 28rpx;
+  padding: 36rpx;
+  color: #fff;
+  margin-bottom: 32rpx;
+  box-shadow: 0 24rpx 50rpx rgba(58, 142, 246, 0.3);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 32rpx;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-label {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+.summary-value {
+  font-size: 40rpx;
+  font-weight: 600;
+  margin-top: 8rpx;
+}
+
+.summary-chips {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999rpx;
+  padding: 8rpx 20rpx;
+  font-size: 24rpx;
+}
+
+.chip-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #8be7ff;
+  margin-right: 10rpx;
+}
+
+.chip-dot.alert {
+  background: #ffb347;
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 24rpx;
+  margin-bottom: 32rpx;
+  box-shadow: 0 12rpx 40rpx rgba(0, 0, 0, 0.06);
+}
+
+.task-icon {
+  width: 92rpx;
+  height: 92rpx;
+  border-radius: 24rpx;
+  background: #eef5ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.task-icon image {
+  width: 56rpx;
+  height: 56rpx;
+}
+
+.task-body {
+  flex: 1;
+}
+
+.task-title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.task-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-right: 12rpx;
+}
+
+.task-count {
+  font-size: 24rpx;
+  color: #8c8c8c;
+}
+
+.task-item {
+  margin-bottom: 8rpx;
+}
+
+.task-name {
+  display: block;
+  font-size: 26rpx;
+  color: #111;
+}
+
+.task-progress {
+  font-size: 24rpx;
+  color: #8c8c8c;
+}
+
+.task-action {
+  border: none;
+  border-radius: 20rpx;
+  padding: 12rpx 28rpx;
+  background: linear-gradient(135deg, #3a8ef6, #5be8c4);
+  color: #fff;
+  font-size: 26rpx;
+}
+
+.section {
+  margin-bottom: 32rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.section-link {
+  font-size: 24rpx;
+  color: #3a8ef6;
+}
+
+.local-entry {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.local-icon {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 20rpx;
+  background: #f7f9ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+}
+
+.local-icon image {
+  width: 52rpx;
+  height: 52rpx;
+}
+
+.local-body {
+  flex: 1;
+}
+
+.local-name {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.local-subtitle {
+  font-size: 24rpx;
+  color: #8c8c8c;
+  margin-top: 6rpx;
+}
+
+.local-arrow {
+  font-size: 40rpx;
+  color: #c0c0c0;
+}
+
+.session-card {
+  display: flex;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.05);
+}
+
+.session-cover {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 16rpx;
+  margin-right: 20rpx;
+}
+
+.session-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.session-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #111;
+}
+
+.session-badge {
+  min-width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  background: #ff5f6d;
+  color: #fff;
+  font-size: 22rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.session-progress {
+  font-size: 24rpx;
+  color: #5f5f5f;
+  margin: 10rpx 0;
+}
+
+.session-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.session-status {
+  font-size: 24rpx;
+  color: #2ec7a7;
+}
+
+.session-updated {
+  font-size: 22rpx;
+  color: #a3a3a3;
+}

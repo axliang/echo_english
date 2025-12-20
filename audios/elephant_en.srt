@@ -1,0 +1,34 @@
+1
+00:00:00,033 --> 00:00:01,033
+elephant
+大象
+
+2
+00:00:03,000 --> 00:00:04,600
+this is an elephant
+这是一只大象
+
+3
+00:00:04,666 --> 00:00:06,933
+the elephant is very large
+这只大象非常大
+
+4
+00:00:08,333 --> 00:00:10,900
+it has gray skin and big ears
+它有灰色皮肤和大耳朵
+
+5
+00:00:11,000 --> 00:00:13,400
+the elephant can walk slowly
+这只大象可以慢慢走
+
+6
+00:00:14,333 --> 00:00:16,533
+it eats leaves and grass
+它吃叶子和草
+
+7
+00:00:17,833 --> 00:00:20,133
+the elephant is kind and calm
+这只大象有友善和冷静

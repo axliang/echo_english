@@ -1,0 +1,54 @@
+{
+  "pages": [
+    "pages/discover/discover",
+    "pages/movie-detail/movie-detail",
+    "pages/player/player",
+    "pages/lyrics-preview/lyrics-preview",
+    "pages/vocabulary-list/vocabulary-list",
+    "pages/search/search",
+    "pages/more/more",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/word-usage/word-usage",
+    "pages/youdao-dictionary/youdao-dictionary"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "英语听力播放器",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/discover/discover",
+        "iconPath": "images/icon_discover.png",
+        "selectedIconPath": "images/icon_discover_selected.png",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/vocabulary-list/vocabulary-list",
+        "iconPath": "images/icon_list.png",
+        "selectedIconPath": "images/icon_list_selected.png",
+        "text": "列表"
+      },
+      {
+        "pagePath": "pages/search/search",
+        "iconPath": "images/menu.png",
+        "selectedIconPath": "images/menu.png",
+        "text": "搜索"
+      },
+      {
+        "pagePath": "pages/more/more",
+        "iconPath": "images/heart.png",
+        "selectedIconPath": "images/heart.png",
+        "text": "更多"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

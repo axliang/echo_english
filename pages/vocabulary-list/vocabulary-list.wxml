@@ -1,0 +1,87 @@
+<view class="downloads-page">
+  <scroll-view class="downloads-scroll" scroll-y="true">
+    <view class="summary-card">
+      <view class="summary-row">
+        <view class="summary-item">
+          <text class="summary-label">总共播放</text>
+          <text class="summary-value">{{downloadSummary.totalPlayback}}</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-label">已下载</text>
+          <text class="summary-value">{{downloadSummary.downloadedCount}} 部</text>
+        </view>
+      </view>
+      <view class="summary-chips">
+        <view class="chip">
+          <text class="chip-dot"></text>
+          <text>下载任务：{{downloadSummary.activeTasks}}</text>
+        </view>
+        <view class="chip">
+          <text class="chip-dot alert"></text>
+          <text>提醒：{{downloadSummary.pendingNotifications}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="task-card" bindtap="openTaskCenter">
+      <view class="task-icon">
+        <image src="/images/download.png" mode="aspectFit"></image>
+      </view>
+      <view class="task-body">
+        <view class="task-title-row">
+          <text class="task-title">下载中任务</text>
+          <text class="task-count">{{downloadTasks.length}}</text>
+        </view>
+        <block wx:for="{{downloadTasks}}" wx:key="id">
+          <view class="task-item">
+            <text class="task-name">{{item.title}}</text>
+            <text class="task-progress">{{item.progressText}} · {{item.speed}}</text>
+          </view>
+        </block>
+      </view>
+      <button class="task-action" catchtap="resumeTask">继续</button>
+    </view>
+
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">本地</text>
+        <text class="section-link">最近同步</text>
+      </view>
+      <block wx:for="{{localEntries}}" wx:key="id">
+        <view class="local-entry" bindtap="openLocalEntry" data-id="{{item.id}}">
+          <view class="local-icon">
+            <image src="{{item.icon}}" mode="aspectFit"></image>
+          </view>
+          <view class="local-body">
+            <text class="local-name">{{item.name}}</text>
+            <text class="local-subtitle">{{item.subtitle}}</text>
+          </view>
+          <text class="local-arrow">›</text>
+        </view>
+      </block>
+    </view>
+
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">下载的</text>
+        <text class="section-link" bindtap="openTaskCenter">管理</text>
+      </view>
+      <block wx:for="{{downloadedSessions}}" wx:key="id">
+        <view class="session-card" bindtap="openSessionDetail" data-id="{{item.id}}">
+          <image class="session-cover" src="{{item.cover}}" mode="aspectFill"></image>
+          <view class="session-body">
+            <view class="session-header">
+              <text class="session-title">{{item.title}}</text>
+              <view class="session-badge" wx:if="{{item.badge}}">{{item.badge}}</view>
+            </view>
+            <text class="session-progress">{{item.progress}}</text>
+            <view class="session-footer">
+              <text class="session-status">{{item.status}}</text>
+              <text class="session-updated">{{item.updatedAt}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,37 @@
+<view class="login-page">
+  <view class="login-card">
+    <view class="login-header">
+      <text class="login-title">手机号登录</text>
+      <text class="login-sub">输入手机号和密码完成登录</text>
+    </view>
+
+    <view class="form-field">
+      <input
+        type="number"
+        maxlength="11"
+        placeholder="请输入 11 位手机号"
+        value="{{loginForm.phone}}"
+        data-field="phone"
+        bindinput="onInput"
+      />
+      <text class="error-text" wx:if="{{loginErrors.phone}}">{{loginErrors.phone}}</text>
+    </view>
+
+    <view class="form-field">
+      <input
+        type="password"
+        placeholder="登录密码（至少 6 位）"
+        value="{{loginForm.password}}"
+        data-field="password"
+        bindinput="onInput"
+      />
+      <text class="error-text" wx:if="{{loginErrors.password}}">{{loginErrors.password}}</text>
+    </view>
+
+    <button class="submit-btn" bindtap="submitLogin" loading="{{submitting}}" disabled="{{submitting}}">登录</button>
+    <view class="link-row">
+      <text>没有账号？</text>
+      <text class="link" bindtap="goToRegister">去注册 ></text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,79 @@
+<view class="search-page">
+  <view class="search-bar">
+    <image class="search-icon" src="/images/list.png"></image>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="搜索字幕中的单词"
+      placeholder-class="placeholder"
+      value="{{query}}"
+      bindinput="onInput"
+      confirm-type="search"
+      bindconfirm="onSearchTap"
+    />
+    <button class="clear-btn" wx:if="{{query}}" bindtap="clearInput">×</button>
+    <button class="search-btn" bindtap="onSearchTap">搜索</button>
+  </view>
+
+  <view class="history-bar" wx:if="{{searchHistory.length}}">
+    <text class="history-label">最近搜索</text>
+    <scroll-view class="history-scroll" scroll-x="true">
+      <view class="history-chips">
+        <block wx:for="{{searchHistory}}" wx:key="word">
+          <view class="history-chip" bindtap="onHistoryTap" data-word="{{item}}">{{item}}</view>
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+
+  <scroll-view class="search-content" scroll-y="true">
+    <view class="word-card" wx:if="{{wordResult}}">
+      <view class="word-header">
+        <text class="word-text">{{wordResult.word}}</text>
+        <button class="audio-btn" bindtap="playWordAudio">
+          <image src="/images/sound.png"></image>
+        </button>
+      </view>
+      <view class="phonetics">
+        <text>美 {{wordResult.phonetics.us}}</text>
+        <text>英 {{wordResult.phonetics.uk}}</text>
+      </view>
+      <view class="definitions">
+        <block wx:for="{{wordResult.definitions}}" wx:key="index">
+          <view class="definition-item">
+            <text class="definition-pos">{{item.pos}}</text>
+            <text class="definition-text">{{item.meaning}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="examples-card">
+      <view class="examples-header">
+        <text class="examples-title">EXAMPLES LINES</text>
+        <text class="examples-count">共 {{exampleResults.length}} 条</text>
+      </view>
+      <block wx:for="{{exampleResults}}" wx:key="id">
+        <view class="example-item">
+          <view class="example-meta">
+            <text>{{item.sequence}} · {{item.time}}</text>
+            <text class="example-source">{{item.show}}</text>
+          </view>
+          <view class="example-en">
+            <block wx:for="{{item.segmentsEn}}" wx:key="index">
+              <text class="segment {{segment.highlight ? 'highlight' : ''}}">{{segment.text}}</text>
+            </block>
+          </view>
+          <view class="example-zh">
+            <block wx:for="{{item.segmentsZh}}" wx:key="index">
+              <text class="segment zh {{segment.highlight ? 'highlight' : ''}}">{{segment.text}}</text>
+            </block>
+          </view>
+        </view>
+      </block>
+      <view class="empty-hint" wx:if="{{!exampleResults.length}}">
+        暂无例句，等待字幕索引完成。
+      </view>
+    </view>
+  </scroll-view>
+</view>

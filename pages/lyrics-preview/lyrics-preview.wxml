@@ -1,0 +1,85 @@
+<view class="lyrics-preview-page">
+  <view class="session-card">
+    <view class="session-cover">
+      <image class="cover-image" src="/images/movie1.jpg" mode="aspectFill"></image>
+    </view>
+    <view class="session-info">
+      <text class="session-title">Taylor Swift 纽约演讲精读</text>
+      <text class="session-meta">{{lyrics.length}} lines · 全文逐句解析</text>
+    </view>
+    <view class="session-extra">
+      <text class="session-tag">热门</text>
+      <text class="session-arrow">⌄</text>
+    </view>
+  </view>
+
+  <scroll-view class="lyrics-list" scroll-y="true">
+    <block wx:for="{{lyrics}}" wx:key="index">
+      <view class="lyric-item">
+        <view class="lyric-body">
+          <text class="lyric-meta">{{item.index}} - {{item.time}}</text>
+          <view class="en-line" wx:if="{{item.words && item.words.length}}">
+            <block wx:for="{{item.words}}" wx:key="wordIndex" wx:for-index="wordIndex" wx:for-item="word">
+              <text
+                id="word-{{index}}-{{wordIndex}}"
+                class="word-text"
+                data-word="{{word}}"
+                data-line-index="{{index}}"
+                data-word-index="{{wordIndex}}"
+                bindtap="onWordTap"
+              >{{word}}</text>
+            </block>
+          </view>
+          <text class="en-line en-line-text" wx:else>{{item.en}}</text>
+          <text class="zh-line">{{item.zh}}</text>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+
+  <view class="vocabulary-entry" bindtap="goToVocabulary">
+    <text class="entry-text">字幕词汇</text>
+    <text class="entry-icon">›</text>
+  </view>
+
+  <view
+    class="dictionary-modal"
+    wx:if="{{showDictionary}}"
+    style="top: {{dictionaryPosition.top}}px; left: {{dictionaryPosition.left}}px; width: {{dictionaryPosition.width || 320}}px;"
+  >
+    <view class="dict-tabs">
+      <text
+        wx:for="{{dictionaryTabs}}"
+        wx:key="key"
+        class="dict-tab {{activeDictionaryTab === item.key ? 'active' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="switchDictionaryTab"
+      >{{item.label}}</text>
+      <button class="dict-close" bindtap="closeDictionary">×</button>
+    </view>
+
+    <view class="dict-word-row">
+      <text class="dict-word">{{selectedWord}}</text>
+      <view class="dict-actions">
+        <image class="dict-action-icon" src="/images/sound.png"></image>
+        <image class="dict-action-icon" src="/images/heart.png"></image>
+      </view>
+    </view>
+
+    <view class="dict-phonetics">
+      <text class="phonetic">美 {{dictionaryPhonetics.us}}</text>
+      <text class="phonetic">英 {{dictionaryPhonetics.uk}}</text>
+      <text class="dict-more" bindtap="goToYoudao">更多</text>
+    </view>
+
+    <view class="dict-meanings">
+      <block wx:for="{{dictionaryDefinitions}}" wx:key="index">
+        <view class="meaning-item">
+          <text class="pos">{{item.pos}}</text>
+          <text class="meaning">{{item.meaning}}</text>
+        </view>
+      </block>
+    </view>
+    <view class="dict-pointer"></view>
+  </view>
+</view>

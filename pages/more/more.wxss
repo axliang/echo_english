@@ -1,0 +1,140 @@
+.more-page {
+  height: 100vh;
+  background: #0c111d;
+}
+
+.more-scroll {
+  height: 100%;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  border-radius: 32rpx;
+  padding: 40rpx;
+  color: #fff;
+  box-shadow: 0 24rpx 60rpx rgba(0, 0, 0, 0.35);
+}
+
+.hero-title {
+  font-size: 40rpx;
+  font-weight: 600;
+}
+
+.hero-desc {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  opacity: 0.8;
+}
+
+.hero-cta {
+  margin-top: 28rpx;
+  display: inline-flex;
+  padding: 12rpx 30rpx;
+  border-radius: 999rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.3);
+  font-size: 26rpx;
+}
+
+.menu-card {
+  margin-top: 32rpx;
+  background: #fff;
+  border-radius: 28rpx;
+  overflow: hidden;
+  box-shadow: 0 12rpx 40rpx rgba(0, 0, 0, 0.08);
+}
+
+.menu-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28rpx 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.menu-row:last-child {
+  border-bottom: none;
+}
+
+.menu-left {
+  display: flex;
+  align-items: center;
+}
+
+.menu-icon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  background: #f5f7fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+}
+
+.menu-icon image {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.menu-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.menu-title {
+  font-size: 30rpx;
+  color: #1f1f1f;
+  line-height: 1.2;
+}
+
+.menu-sub {
+  font-size: 24rpx;
+  color: #606266;
+}
+
+.menu-right {
+  display: flex;
+  align-items: center;
+}
+
+.menu-extra {
+  font-size: 24rpx;
+  color: #9a9a9a;
+  margin-right: 8rpx;
+}
+
+.menu-arrow {
+  font-size: 40rpx;
+  color: #d0d0d0;
+}
+
+.footer-banner {
+  margin-top: 32rpx;
+  background: #ffe3c2;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #8c4b10;
+}
+
+.banner-title {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.banner-desc {
+  display: block;
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+.banner-arrow {
+  font-size: 26rpx;
+}
+
