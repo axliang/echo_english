@@ -201,10 +201,13 @@
     
     <!-- 单词和操作 -->
     <view class="dict-word-row">
-      <text class="dict-word">{{selectedWord}}</text>
-      <button class="favorite-button">
-        <image class="heart-icon" src="/images/heart.png"></image>
-      </button>
+      <view class="dict-word-container">
+        <text class="dict-word">{{selectedWord}}</text>
+        <view class="favorite-btn {{isFavorited ? 'active' : ''}}" catchtap="toggleFavorite">
+          <image class="heart-icon" src="/images/heart.png"></image>
+          <text class="fav-status">{{isFavorited ? '-' : '+'}}</text>
+        </view>
+      </view>
       <text class="more-text">更多</text>
     </view>
     

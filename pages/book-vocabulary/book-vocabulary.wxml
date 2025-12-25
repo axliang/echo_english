@@ -1,0 +1,44 @@
+<view class="page">
+  <view class="header">
+    <view class="title">{{title}}</view>
+    <view class="subtitle">共 {{totalWords}} 个单词</view>
+    <view class="progress" wx:if="{{courseProgress.total > 0}}">
+      <text>已解析 {{courseProgress.finished}} / {{courseProgress.total}} 课</text>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{isLoading}}">
+    <text>{{loadingText}}</text>
+  </view>
+
+  <scroll-view class="list" scroll-y="true" enable-back-to-top="true" bindscrolltolower="onReachBottom">
+    <block wx:for="{{displayWords}}" wx:key="word">
+      <view class="word-item" bindtap="viewWordDetail" data-word="{{item.word}}">
+        <view class="word-row">
+          <view class="word-main">
+            <text class="word-text">{{item.word}}</text>
+            <text class="freq">({{item.frequency}})</text>
+          </view>
+          <view class="actions">
+            <button class="sound" catchtap="playWord" data-word="{{item.word}}">
+              <image src="/images/sound.png" mode="aspectFit"></image>
+            </button>
+          </view>
+        </view>
+        <view class="meaning" wx:if="{{item.meaning}}">{{item.meaning}}</view>
+        <view class="meaning placeholder" wx:else>释义加载中...</view>
+      </view>
+    </block>
+
+    <view class="empty" wx:if="{{!isLoading && displayWords.length === 0}}">
+      <text>暂无单词</text>
+    </view>
+
+    <view class="load-more" wx:if="{{!isLoading && hasMore}}">
+      <button type="default" bindtap="loadMoreWords">加载更多</button>
+    </view>
+    <view class="load-more done" wx:elif="{{!isLoading && !hasMore && displayWords.length > 0}}">
+      <text>已全部加载</text>
+    </view>
+  </scroll-view>
+</view>

@@ -71,10 +71,15 @@
     </view>
 
     <view class="dict-word-row">
-      <text class="dict-word">{{selectedWord}}</text>
+      <view class="dict-word-container">
+        <text class="dict-word">{{selectedWord}}</text>
+        <view class="favorite-btn {{isFavorited ? 'active' : ''}}" catchtap="toggleFavorite">
+          <image class="heart-icon" src="/images/heart.png"></image>
+          <text class="fav-status">{{isFavorited ? '-' : '+'}}</text>
+        </view>
+      </view>
       <view class="dict-actions">
         <image class="dict-action-icon" src="/images/sound.png"></image>
-        <image class="dict-action-icon" src="/images/heart.png"></image>
       </view>
     </view>
 

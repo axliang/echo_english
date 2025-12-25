@@ -1,0 +1,130 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f7f8fa;
+}
+
+.header {
+  padding: 32rpx 28rpx 16rpx;
+  background: #141820;
+  color: #fff;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+}
+
+.subtitle {
+  font-size: 26rpx;
+  color: #cfd4dd;
+}
+
+.progress {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #8ba5c4;
+}
+
+.loading {
+  padding: 60rpx 32rpx;
+  text-align: center;
+  color: #666;
+  font-size: 28rpx;
+}
+
+.list {
+  flex: 1;
+  padding: 0 24rpx 24rpx;
+  box-sizing: border-box;
+}
+
+.word-item {
+  margin-top: 20rpx;
+  padding: 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.04);
+}
+
+.word-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.word-main {
+  display: flex;
+  align-items: center;
+}
+
+.word-text {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #111;
+  margin-right: 12rpx;
+}
+
+.freq {
+  font-size: 26rpx;
+  color: #888;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.sound {
+  width: 64rpx;
+  height: 64rpx;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.sound image {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.meaning {
+  font-size: 26rpx;
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.placeholder {
+  color: #999;
+}
+
+.empty {
+  padding: 100rpx 0;
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.load-more {
+  margin-top: 16rpx;
+  padding-bottom: 20rpx;
+  text-align: center;
+}
+
+.load-more button {
+  width: 60%;
+  background: #ffca28;
+  color: #111;
+  border: none;
+  border-radius: 999rpx;
+}
+
+.load-more.done {
+  color: #999;
+  font-size: 26rpx;
+  padding: 12rpx 0 20rpx;
+}

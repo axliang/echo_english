@@ -37,6 +37,7 @@ App({
     });
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    vocabularyData: null
   }
 });

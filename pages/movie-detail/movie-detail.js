@@ -31,7 +31,7 @@ Page({
     if (index >= 0 && index < this.data.movie.tracks.length) {
       const track = this.data.movie.tracks[index];
       wx.navigateTo({
-        url: `/pages/player/player?movieId=${this.data.movie.id}&trackIndex=${index}&audioUrl=${encodeURIComponent(track.audioUrl)}&srtUrl=${track.srtUrl ? encodeURIComponent(track.srtUrl) : ''}`
+        url: `/pages/player/player?movieId=${this.data.movie.id}&bookId=${this.data.movie.id}&trackIndex=${index}&title=${encodeURIComponent(this.data.movie.title || '')}&audioUrl=${encodeURIComponent(track.audioUrl)}&srtUrl=${track.srtUrl ? encodeURIComponent(track.srtUrl) : ''}`
       });
     } else {
       wx.showToast({

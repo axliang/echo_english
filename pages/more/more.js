@@ -51,12 +51,17 @@ Page({
 
   handleMenuTap(e) {
     const { id } = e.currentTarget.dataset;
+    console.log('[More] handleMenuTap:', id);
     if (id === 'account') {
       if (this.data.currentUser) {
         wx.showToast({ title: '已登录', icon: 'none' });
       } else {
         wx.navigateTo({ url: '/pages/login/login' });
       }
+      return;
+    }
+    if (id === 'vocabulary') {
+      wx.navigateTo({ url: '/pages/vocabulary-detail/vocabulary-detail?type=favorite&title=生词' });
       return;
     }
     wx.showToast({ title: '功能开发中', icon: 'none' });

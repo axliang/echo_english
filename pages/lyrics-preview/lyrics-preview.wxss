@@ -180,8 +180,48 @@
 .dict-word-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin: 12rpx 0;
+}
+
+.dict-word-container {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex: 1;
+}
+
+.favorite-btn {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  padding: 4rpx 14rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30rpx;
+  border: 1rpx solid rgba(79, 195, 247, 0.5);
+}
+
+.favorite-btn.active {
+  border-color: rgba(255, 77, 79, 0.5);
+}
+
+.heart-icon {
+  width: 28rpx;
+  height: 28rpx;
+  filter: brightness(0) saturate(100%) invert(46%) sepia(96%) saturate(1054%) hue-rotate(189deg) brightness(101%) contrast(101%); /* Blue */
+}
+
+.favorite-btn.active .heart-icon {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(89%) saturate(5895%) hue-rotate(352deg) brightness(97%) contrast(106%); /* Red */
+}
+
+.fav-status {
+  font-size: 20rpx;
+  color: #4fc3f7;
+  font-weight: bold;
+}
+
+.favorite-btn.active .fav-status {
+  color: #ff4d4f;
 }
 
 .dict-word {

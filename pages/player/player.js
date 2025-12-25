@@ -26,7 +26,51 @@ Page({
     ],
     showDebug: false,
     subtitleMode: 'dual',
-    subtitleModeLabel: '双语'
+    subtitleModeLabel: '双语',
+    isFavorited: false
+  },
+
+  getUserId() {
+    const userInfo = wx.getStorageSync('userInfo');
+    return userInfo ? (userInfo.user_id || userInfo.id || 1) : 1;
+  },
+
+  checkFavoriteStatus(word) {
+    if (!word) return;
+    const user_id = this.getUserId();
+    wx.request({
+      url: `https://danci.hub123.cn/admin/openApi/word_favorite_api.php?user_id=${user_id}&word=${word}`,
+      method: 'GET',
+      success: (res) => {
+        if (res.data && res.data.status === 'success') {
+          this.setData({ isFavorited: !!res.data.favorited });
+        }
+      }
+    });
+  },
+
+  toggleFavorite() {
+    const word = this.data.selectedWord;
+    if (!word) return;
+    const user_id = this.getUserId();
+    const isFavorited = this.data.isFavorited;
+    const method = isFavorited ? 'DELETE' : 'POST';
+
+    wx.request({
+      url: 'https://danci.hub123.cn/admin/openApi/word_favorite_api.php',
+      method: method,
+      data: { user_id, word },
+      header: { 'content-type': 'application/json' },
+      success: (res) => {
+        if (res.data && res.data.status === 'success') {
+          this.setData({ isFavorited: !!res.data.favorited });
+          wx.showToast({
+            title: res.data.favorited ? '已收藏' : '已取消收藏',
+            icon: 'success'
+          });
+        }
+      }
+    });
   },
 
   onLoad(options) {
@@ -37,9 +81,12 @@ Page({
     // 保存传递的参数，并进行URL解码
     this.audioUrl = options.audioUrl ? decodeURIComponent(options.audioUrl) : null;
     this.srtUrl = options.srtUrl ? decodeURIComponent(options.srtUrl) : null;
+    this.bookId = options.bookId || '';
+    this.pageTitle = options.title ? decodeURIComponent(options.title) : '字幕词汇';
     
     console.log('[Player] 解码后的音频URL:', this.audioUrl);
     console.log('[Player] 解码后的字幕URL:', this.srtUrl);
+    console.log('[Player] 关联的bookId:', this.bookId);
     
     // 延迟加载字幕确保界面初始化完成
     setTimeout(() => {
@@ -84,6 +131,35 @@ Page({
   onTimeUpdate(e) {
     // console.log('[Video] 时间更新:', e.detail.currentTime, '/', e.detail.duration);
     this.updateProgress(e.detail.currentTime, e.detail.duration);
+  },
+
+  // 单词点击事件处理 - 跳转整本字幕词汇页
+  onWordTap(e) {
+    console.log('[Player] 单词被点击:', e.currentTarget.dataset.word);
+    console.log('[Player] 事件数据:', e.currentTarget.dataset);
+
+    if (this.bookId) {
+      wx.navigateTo({
+        url: `/pages/book-vocabulary/book-vocabulary?bookId=${this.bookId}&title=${encodeURIComponent(this.pageTitle || '字幕词汇')}`
+      });
+      return;
+    }
+
+    // 无bookId时回退到当前字幕词频列表
+    try {
+      let wordFrequencyMap = this.extractWordFrequency();
+      if (wordFrequencyMap.size === 0) {
+        wordFrequencyMap = this.getMockWordFrequency();
+      }
+      const sortedWords = this.sortWordsByFrequency(wordFrequencyMap);
+      this.navigateToVocabularyList(sortedWords);
+    } catch (error) {
+      console.error('[Player] 处理单词点击事件失败:', error);
+      wx.showToast({
+        title: '处理失败，请稍后重试',
+        icon: 'none'
+      });
+    }
   },
 
   loadSubtitles() {
@@ -284,6 +360,114 @@ Page({
       console.error('[Player] 时间格式解析失败:', timeStr, error);
       return null;
     }
+  },
+
+  // 从字幕中提取所有单词并统计频率
+  extractWordFrequency() {
+    const wordMap = new Map();
+    
+    // 遍历所有歌词
+    this.lyrics.forEach(lyric => {
+      if (lyric.en) {
+        // 提取英文歌词中的单词
+        let words = [];
+        
+        if (lyric.words && lyric.words.length > 0) {
+          // 如果已经有单词数组，直接使用
+          words = lyric.words;
+        } else {
+          // 否则，从英文文本中提取单词
+          words = lyric.en.split(/\s+/).filter(word => word.trim() !== '');
+        }
+        
+        // 统计单词频率
+        words.forEach(word => {
+          // 清除标点符号
+          const cleanWord = word.replace(/[^a-zA-Z]/g, '').toLowerCase();
+          if (cleanWord === '') return;
+          
+          const count = wordMap.get(cleanWord) || 0;
+          wordMap.set(cleanWord, count + 1);
+        });
+      }
+    });
+    
+    return wordMap;
+  },
+
+  // 生成模拟单词频率数据
+  getMockWordFrequency() {
+    const wordMap = new Map();
+    
+    // 常用英语单词及其模拟频率
+    const mockWords = [
+      { word: 'the', frequency: 35 },
+      { word: 'and', frequency: 28 },
+      { word: 'is', frequency: 22 },
+      { word: 'to', frequency: 20 },
+      { word: 'of', frequency: 18 },
+      { word: 'in', frequency: 15 },
+      { word: 'that', frequency: 12 },
+      { word: 'it', frequency: 10 },
+      { word: 'for', frequency: 9 },
+      { word: 'with', frequency: 8 },
+      { word: 'as', frequency: 7 },
+      { word: 'on', frequency: 6 },
+      { word: 'at', frequency: 5 },
+      { word: 'by', frequency: 4 },
+      { word: 'this', frequency: 4 },
+      { word: 'but', frequency: 3 },
+      { word: 'not', frequency: 3 },
+      { word: 'what', frequency: 3 },
+      { word: 'all', frequency: 3 },
+      { word: 'be', frequency: 2 },
+      { word: 'he', frequency: 2 },
+      { word: 'she', frequency: 2 },
+      { word: 'they', frequency: 2 },
+      { word: 'we', frequency: 2 }
+    ];
+    
+    // 将模拟数据添加到Map中
+    mockWords.forEach(item => {
+      wordMap.set(item.word, item.frequency);
+    });
+    
+    return wordMap;
+  },
+
+  // 按频率从高到低排序单词
+  sortWordsByFrequency(wordMap) {
+    const words = [];
+    
+    // 转换Map为数组
+    wordMap.forEach((frequency, word) => {
+      words.push({
+        word: word,
+        frequency: frequency,
+        meaning: '' // 单词释义，这里可以根据需要添加实际释义
+      });
+    });
+    
+    // 按频率从高到低排序
+    words.sort((a, b) => b.frequency - a.frequency);
+    
+    return words;
+  },
+
+  // 跳转到词汇列表页面
+  navigateToVocabularyList(words) {
+    if (words.length === 0) {
+      wx.showToast({
+        title: '没有可显示的词汇',
+        icon: 'none'
+      });
+      return;
+    }
+    
+    // 导航到词汇列表页面
+    wx.navigateTo({
+      url: `/pages/vocabulary-detail/vocabulary-detail?words=${encodeURIComponent(JSON.stringify(words))}&title=字幕词汇`
+    });
   },
 
   updateProgress(currentTime, duration) {
@@ -519,8 +703,8 @@ Page({
     });
   },
 
-  // 处理单词点击事件
-  onWordTap(e) {
+  // 显示单词词典卡片
+  showWordDictionary(e) {
     this.togglePlay();
 
     const selectedWord = e.currentTarget.dataset.word || '';
@@ -674,6 +858,7 @@ Page({
           dictionaryPhonetics: phonetics,
           dictionaryDefinitions: normalizedDefinitions
         });
+        this.checkFavoriteStatus(normalizedWord);
       },
       fail: (err) => {
         console.error('[Player] 在线词典请求失败:', err);
